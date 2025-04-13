@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/sqrt_icon.png</file>
+        <file>icons/power_icon.png</file>
+        <file>icons/backspace_icon.png</file>
+    </qresource>
+</RCC>
