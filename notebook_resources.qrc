@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/icon/calqlatr.svg</file>
+        <file>assets/icon/trace.svg</file>
+        <file>assets/icon/bold.svg</file>
+        <file>assets/icon/formatbrush.svg</file>
+        <file>assets/icon/italic.svg</file>
+        <file>assets/icon/strikeout.svg</file>
+        <file>assets/icon/underline.svg</file>
+        <file>assets/icon/pulldown.svg</file>
+        <file>assets/icon/fontcolor.png</file>
+        <file>assets/icon/fmtbrush_cursor.png</file>
+        <file>assets/icon/doublearrow_left.svg</file>
+        <file>assets/icon/doublearrow_right.svg</file>
+    </qresource>
+</RCC>
