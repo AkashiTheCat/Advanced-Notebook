@@ -36,7 +36,9 @@ NoteBookWidget::NoteBookWidget(QWidget *parent) : AbstractFileEditor(parent), ui
     this->setRenamingTitle(tr("Rename"));
     this->setRenamingFilter(tr("Advanced Notes (*.advcn);;Text files (*.txt)"));
 
-    connect(ui->mainTextEdit, &AdvTextEdit::textChanged, this, &NoteBookWidget::setEdited);
+    connect(ui->mainTextEdit, &AdvTextEdit::textChanged, this, [this] {
+        this->setEdited(true);
+    });
 
     /*
      *      Record Embedding/Tracing Logics

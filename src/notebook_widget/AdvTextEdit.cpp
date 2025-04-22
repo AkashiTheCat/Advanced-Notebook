@@ -3,6 +3,7 @@
 #include <QMenu>
 #include <QTextDocumentWriter>
 #include <QListWidget>
+#include <QTextEdit>
 
 #include "AdvTextEdit.h"
 #include "RecordObject.h"
@@ -12,12 +13,22 @@
 
 AdvTextEdit::AdvTextEdit(QWidget *parent)
     : QTextEdit(parent) {
-    QFont font = this->currentCharFormat().font();
-    font.setBold(false);
-    font.setItalic(false);
-    font.setUnderline(false);
-    font.setStrikeOut(false);
-    this->setCurrentFont(font);
+    this->fontAtHead = this->currentCharFormat().font();
+    this->fontAtHead.setBold(false);
+    this->fontAtHead.setItalic(false);
+    this->fontAtHead.setUnderline(false);
+    this->fontAtHead.setStrikeOut(false);
+    this->setCurrentFont(this->fontAtHead);
+
+    connect(this->document(), &QTextDocument::contentsChange,
+        this, [this](int position, int charsRemoved, int charsAdded) {
+            if (position == 0) {
+                if (this->document()->firstBlock().length() > 1)
+                    fontAtHead = this->currentFont();
+                else
+                    this->document()->setDefaultFont(fontAtHead);
+            }
+        });
 }
 
 QString AdvTextEdit::toPlainText() const {

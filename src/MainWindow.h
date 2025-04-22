@@ -41,7 +41,7 @@ public slots:
     void openSettingsWindow();
 
     void handleFileNameChange(const QString &to);
-    void handleFileSaveStateChange();
+    void handleFileEditStateChange();
 
     // QWidget interface
 protected:

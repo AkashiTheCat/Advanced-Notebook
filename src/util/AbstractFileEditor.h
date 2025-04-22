@@ -18,15 +18,15 @@ private:
     QString RenamingFilter = "All types (*.*)";
 
     QString FileName = "";
-    bool Saved = true;
+    bool Edited = true;
 
 public:
     explicit AbstractFileEditor(QWidget *parent = nullptr);
 
     // Returns whether the file is a temporary file
     bool isTempFile() const;
-    // Returns whether the file is already saved at this state
-    bool isFileSaved() const;
+    // Returns whether file is edited without saving.
+    bool isFileEdited() const;
     // Returns the current file name (including path)
     const QString &fileName() const;
     // Set dialog title when opening file
@@ -57,14 +57,14 @@ public:
     virtual bool renameFile(bool *discarded = nullptr);
 
 public slots:
-    // Set file state to Edited (saving needed)
-    void setEdited();
+    // Set file state to [edited]
+    void setEdited(bool edited);
 
 signals:
     // Emitted when current file name is going to change(not yet), new file name provided in parameter
-    void fileNameChange(const QString& to);
+    void fileNameChange(const QString &to);
     // Emitted when file state changes from saved to unsaved(new changes made) or unsaved to saved(file saved)
-    void saveStateChanged();
+    void editStateChanged();
 
 protected:
     // Returns the default file directory for the file dialog

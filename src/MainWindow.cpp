@@ -47,7 +47,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::handleNewWidgetConnection(NoteBookWidget *widget) {
     connect(widget, &NoteBookWidget::fileNameChange, this, &MainWindow::handleFileNameChange);
-    connect(widget, &NoteBookWidget::saveStateChanged, this, &MainWindow::handleFileSaveStateChange);
+    connect(widget, &NoteBookWidget::editStateChanged, this, &MainWindow::handleFileEditStateChange);
 }
 
 bool MainWindow::hintSave(AbstractFileEditor *tab) {
@@ -124,7 +124,7 @@ void MainWindow::loadOpeningFiles() {
 
 void MainWindow::newFile() {
     NoteBookWidget *widget = new NoteBookWidget(this);
-    widget->setEdited();
+    widget->setEdited(true);
     handleNewWidgetConnection(widget);
     int index = this->ui->tabWidget->addTab(widget, "NewNote" + QString::number(newNoteCounter++) + '*');
     this->ui->tabWidget->setCurrentIndex(index);
@@ -178,7 +178,7 @@ void MainWindow::openFile() {
 
 void MainWindow::closeTab(int index) {
     AbstractFileEditor *wTab = static_cast<AbstractFileEditor *>(this->ui->tabWidget->widget(index));
-    if (!wTab->isFileSaved() && hintSave(wTab))
+    if (wTab->isFileEdited() && hintSave(wTab))
         return;
 
     QStringList list = ProgramSettings::OPENING_FILES.value();
@@ -195,7 +195,7 @@ void MainWindow::saveCurrent() {
         return;
     AbstractFileEditor *wTab = static_cast<AbstractFileEditor *>(this->ui->tabWidget->currentWidget());
     bool discarded;
-    if (!wTab->isFileSaved() && !wTab->saveFile(&discarded) && !discarded) {
+    if (wTab->isFileEdited() && !wTab->saveFile(&discarded) && !discarded) {
         QFileInfo info(wTab->fileName());
         QMessageBox::warning(this, tr("ERROR"), tr("Failed to save ") + info.fileName());
     }
@@ -231,7 +231,7 @@ void MainWindow::saveAll() {
     for (int i = 0; i < tabWidget->count(); i++) {
         wTab = static_cast<AbstractFileEditor *>(tabWidget->widget(i));
         bool discarded;
-        if (!wTab->isFileSaved() && !wTab->saveFile(&discarded) && !discarded) {
+        if (wTab->isFileEdited() && !wTab->saveFile(&discarded) && !discarded) {
             QFileInfo info(wTab->fileName());
             QMessageBox::warning(this, tr("ERROR"), tr("Failed to save ") + info.fileName());
             tabWidget->setCurrentIndex(i);
@@ -280,14 +280,14 @@ void MainWindow::handleFileNameChange(const QString &to) {
     ProgramSettings::OPENING_FILES.setValue(list);
 
     this->ui->tabWidget->setTabText(this->ui->tabWidget->indexOf(wTab),
-        info.fileName() + (wTab->isFileSaved() ? " " : "*"));
+        info.fileName() + (!wTab->isFileEdited() ? " " : "*"));
 }
 
-void MainWindow::handleFileSaveStateChange() {
+void MainWindow::handleFileEditStateChange() {
     AbstractFileEditor *wTab = static_cast<AbstractFileEditor *>(sender());
     QTabWidget *tabWidget = this->ui->tabWidget;
     int index = tabWidget->indexOf(wTab);
-    tabWidget->setTabText(index, tabWidget->tabText(index).removeLast() + (wTab->isFileSaved() ? " " : "*"));
+    tabWidget->setTabText(index, tabWidget->tabText(index).removeLast() + (wTab->isFileEdited() ? "*" : " "));
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -295,7 +295,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
     AbstractFileEditor *wTab;
     for (int i = 0; i < tabWidget->count(); i++) {
         wTab = static_cast<AbstractFileEditor *>(tabWidget->widget(i));
-        if (!wTab->isFileSaved()) {
+        if (wTab->isFileEdited()) {
             tabWidget->setCurrentIndex(i);
             if (hintSave(wTab)) {
                 event->ignore();

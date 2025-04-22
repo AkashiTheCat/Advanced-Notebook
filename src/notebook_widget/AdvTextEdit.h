@@ -21,6 +21,8 @@ public:
 private:
     bool fmtBrush = false;
 
+    QFont fontAtHead;
+
     static const int BLOCK_END_FLAG = -127;
     static const int DOCUMENT_END_FLAG = -255;
 

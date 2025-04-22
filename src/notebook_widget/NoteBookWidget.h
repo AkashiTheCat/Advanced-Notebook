@@ -54,5 +54,6 @@ public:
     // QObject interface
 public:
     bool eventFilter(QObject *watched, QEvent *event) override;
+
 };
 #endif // NOTEBOOKWIDGET_H

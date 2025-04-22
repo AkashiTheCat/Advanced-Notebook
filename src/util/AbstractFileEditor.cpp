@@ -45,8 +45,8 @@ bool AbstractFileEditor::loadFile(const QString &fileName) {
     emit fileNameChange(fileName);
     this->FileName = fileName;
 
-    this->Saved = true;
-    emit saveStateChanged();
+    this->Edited = false;
+    emit editStateChanged();
 
     return true;
 }
@@ -76,8 +76,8 @@ bool AbstractFileEditor::saveFileAs(bool *discarded) {
     this->FileName = fileName;
 
 
-    this->Saved = true;
-    emit saveStateChanged();
+    this->Edited = false;
+    emit editStateChanged();
 
     return true;
 }
@@ -96,8 +96,8 @@ bool AbstractFileEditor::saveFile(bool *discarded) {
         return false;
     }
 
-    this->Saved = true;
-    emit saveStateChanged();
+    this->Edited = false;
+    emit editStateChanged();
 
     return true;
 }
@@ -130,11 +130,11 @@ bool AbstractFileEditor::renameFile(bool *discarded) {
     return true;
 }
 
-bool AbstractFileEditor::isFileSaved() const { return this->Saved; }
+bool AbstractFileEditor::isFileEdited() const { return this->Edited; }
 
-void AbstractFileEditor::setEdited() {
-    this->Saved = false;
-    emit saveStateChanged();
+void AbstractFileEditor::setEdited(bool edited) {
+    this->Edited = edited;
+    emit editStateChanged();
 }
 
 const QString &AbstractFileEditor::fileName() const { return this->FileName; }
