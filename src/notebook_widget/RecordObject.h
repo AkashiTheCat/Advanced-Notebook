@@ -17,9 +17,6 @@ public:
 
     static QTextCharFormat getTextCharFormat(const CalqlatrRecord &rec);
 
-    static QString toHtml(const QTextCharFormat &format);
-    static CalqlatrRecord fromHtml(const QTextCharFormat &format);
-
 signals:
 
     // QTextObjectInterface interface

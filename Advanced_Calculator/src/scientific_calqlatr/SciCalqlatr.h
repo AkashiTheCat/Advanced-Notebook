@@ -55,7 +55,7 @@ public:
     const bool isRecentRecordsEmpty() const;
 
     const QList<Element> &currentExp();
-    const QQueue<CalqlatrRecord> recentRecords();
+    const QQueue<CalqlatrRecord>& recentRecords();
 
     void readFrom(QDataStream &in);
     void writeTo(QDataStream &out) const;

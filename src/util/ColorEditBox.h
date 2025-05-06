@@ -8,6 +8,7 @@ class ColorEditBox : public QComboBox {
     Q_OBJECT
 private:
     QMenu *popUpMenu;
+    QRegularExpression regex = QRegularExpression("^#([A-Fa-f0-9]{3,})");
 
 public:
     ColorEditBox(QWidget *parent = nullptr);

@@ -43,5 +43,19 @@ void MultiStateToolButton::switchState(int index) {
     this->setIcon(state.getIcon());
     this->setText(state.getText());
 
-    emit stateSwitched(index);
+    emit stateSwitched(currentStateIndex);
+}
+
+void MultiStateToolButton::switchNextState() {
+    int maxStateIndex = states.length() - 1;
+    if (maxStateIndex <= 0)
+        return;
+    currentStateIndex = currentStateIndex == maxStateIndex ? 0 : currentStateIndex + 1;
+
+    const ButtonState &state = states.at(currentStateIndex);
+
+    this->setIcon(state.getIcon());
+    this->setText(state.getText());
+
+    emit stateSwitched(currentStateIndex);
 }

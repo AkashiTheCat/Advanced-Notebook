@@ -24,6 +24,7 @@ signals:
 
 public slots:
     void switchState(int index = -1);
+    void switchNextState();
 };
 
 #endif // MULTISTATETOOLBUTTON_H

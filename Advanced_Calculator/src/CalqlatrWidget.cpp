@@ -22,7 +22,8 @@ CalqlatrWidget::CalqlatrWidget(QWidget *parent)
     ui->transferButton->setDisabled(true);
     connect(ui->calqlatrHistoryWidget, &CalqlatrHistoryWidget::transferStateChanged, this,
         &CalqlatrWidget::handleTranferStateChange);
-    connect(ui->sciCalqlatrWidget, &SciCalqlatrWidget::transferStateChanged, this, &CalqlatrWidget::handleTranferStateChange);
+    connect(ui->sciCalqlatrWidget, &SciCalqlatrWidget::transferStateChanged, this,
+            &CalqlatrWidget::handleTranferStateChange);
 
     connect(ui->transferButton, &QPushButton::clicked, this, &CalqlatrWidget::transferToNotebook);
 

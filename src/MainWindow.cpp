@@ -13,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
 
+    this->setWindowTitle(tr("Advanced Notebook"));
+
     connect(this->ui->actionNew_File, &QAction::triggered, this, &MainWindow::newFile);
     connect(this->ui->actionOpen_File, &QAction::triggered, this, &MainWindow::openFile);
     connect(this->ui->actionRename, &QAction::triggered, this, &MainWindow::renameCurrent);

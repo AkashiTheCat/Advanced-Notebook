@@ -63,35 +63,33 @@ SciCalqlatrWidget::SciCalqlatrWidget(QWidget *parent) : QWidget(parent), ui(new 
     }
 
     // Util Buttons
-    this->trigoSwitchButton = new MultiStateToolButton(this);
-    trigoSwitchButton->setStates({ tr("2nd") });
+    this->trigoSwitchButton = new QToolButton(this);
+    this->trigoSwitchButton->setText(tr("2nd"));
     trigoSwitchButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    connect(trigoSwitchButton, &MultiStateToolButton::clicked, trigoSwitchButton,
-        &MultiStateToolButton::switchState);
-    connect(trigoSwitchButton, &MultiStateToolButton::clicked, sinButton, &SciCalqlatrButton::switchState);
-    connect(trigoSwitchButton, &MultiStateToolButton::clicked, cosButton, &SciCalqlatrButton::switchState);
-    connect(trigoSwitchButton, &MultiStateToolButton::clicked, tanButton, &SciCalqlatrButton::switchState);
-    connect(trigoSwitchButton, &MultiStateToolButton::clicked, secButton, &SciCalqlatrButton::switchState);
+    connect(trigoSwitchButton, &MultiStateToolButton::clicked, sinButton, &SciCalqlatrButton::switchNextState);
+    connect(trigoSwitchButton, &MultiStateToolButton::clicked, cosButton, &SciCalqlatrButton::switchNextState);
+    connect(trigoSwitchButton, &MultiStateToolButton::clicked, tanButton, &SciCalqlatrButton::switchNextState);
+    connect(trigoSwitchButton, &MultiStateToolButton::clicked, secButton, &SciCalqlatrButton::switchNextState);
 
     this->degRadSwitchButton = new MultiStateToolButton(this);
     degRadSwitchButton->setStates({ tr("rad"), tr("deg") });
     degRadSwitchButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(degRadSwitchButton, &MultiStateToolButton::clicked, degRadSwitchButton,
-        &MultiStateToolButton::switchState);
+        &SciCalqlatrButton::switchNextState);
     connect(degRadSwitchButton, &MultiStateToolButton::clicked, this->calqlatr, &SciCalqlatr::switchAngleUnit);
 
-    this->backspaceButton = new MultiStateToolButton(this);
-    backspaceButton->setStates({ QIcon(":/icons/backspace_icon.png") });
+    this->backspaceButton = new QToolButton(this);
+    backspaceButton->setIcon(QIcon(":/icons/backspace_icon.png"));
     backspaceButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(backspaceButton, &MultiStateToolButton::clicked, this, &SciCalqlatrWidget::backspaceClicked);
 
-    this->clearButton = new MultiStateToolButton(this);
-    clearButton->setStates({ tr("AC") });
+    this->clearButton = new QToolButton(this);
+    clearButton->setText(tr("AC"));
     clearButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(clearButton, &MultiStateToolButton::clicked, this, &SciCalqlatrWidget::clearButtonClicked);
 
-    this->calculateButton = new MultiStateToolButton(this);
-    calculateButton->setStates({ tr("=") });
+    this->calculateButton = new QToolButton(this);
+    calculateButton->setText(tr("="));
     calculateButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     connect(calculateButton, &MultiStateToolButton::clicked, this, &SciCalqlatrWidget::calqlatr_calculate);
 
@@ -234,7 +232,7 @@ void SciCalqlatrWidget::handleElementInsert(int index, Element e) {
 
 void SciCalqlatrWidget::updateRecordsText() {
     qInfo() << "Records text updating";
-    QQueue<CalqlatrRecord> records = calqlatr->recentRecords();
+    const QQueue<CalqlatrRecord>& records = calqlatr->recentRecords();
     for (int i = 0; i < recordLineEdits.length(); i++) {
         recordLineEdits.at(i)->setText(i < records.length() ? records.at(i).getText() : "");
     }

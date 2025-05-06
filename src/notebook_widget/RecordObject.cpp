@@ -25,7 +25,7 @@ QSizeF RecordObject::intrinsicSize(QTextDocument *doc, int posInDocument, const 
     Q_UNUSED(doc);
     Q_UNUSED(posInDocument);
 
-    CalqlatrRecord rec = format.property(CALREC_PROP).value<CalqlatrRecord>();
+    const CalqlatrRecord& rec = format.property(CALREC_PROP).value<CalqlatrRecord>();
     bool showResult = format.property(SHOWRES_PROP).toBool();
     QString text = showResult ? QString::number(rec.getResult()) : rec.getText();
 
@@ -42,7 +42,7 @@ void RecordObject::drawObject(QPainter *painter, const QRectF &rect, QTextDocume
     Q_UNUSED(doc);
     Q_UNUSED(posInDocument);
 
-    CalqlatrRecord rec = format.property(CALREC_PROP).value<CalqlatrRecord>();
+    const CalqlatrRecord& rec = format.property(CALREC_PROP).value<CalqlatrRecord>();
     bool showResult = format.property(SHOWRES_PROP).toBool();
     QString text = showResult ? QString::number(rec.getResult()) : rec.getText();
 
@@ -52,17 +52,13 @@ void RecordObject::drawObject(QPainter *painter, const QRectF &rect, QTextDocume
     painter->setPen(QColor(Qt::darkCyan));
     QFontMetrics fm(font);
 
-    int textWidth = fm.horizontalAdvance(text);
     int textHeight = fm.height();
 
     painter->drawText(rect, Qt::AlignBaseline, text);
 
     QPixmap pixmap(":/assets/icon/calqlatr.svg");
     if (!pixmap.isNull()) {
-        int targetHeight = textHeight;
-
-        QRectF imgRect(rect.left() + textWidth, rect.top() + (rect.height() - targetHeight) / 2, targetHeight,
-            targetHeight);
+        QRectF imgRect(rect.right() - textHeight, rect.top(), textHeight, textHeight);
 
         painter->setRenderHint(QPainter::SmoothPixmapTransform, true);
         painter->drawPixmap(imgRect, pixmap, pixmap.rect());

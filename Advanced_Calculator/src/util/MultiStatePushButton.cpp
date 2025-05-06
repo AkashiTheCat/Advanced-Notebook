@@ -45,3 +45,17 @@ void MultiStatePushButton::switchState(int index) {
 
     emit stateSwitched(index);
 }
+
+void MultiStatePushButton::switchNextState() {
+    int maxStateIndex = states.length() - 1;
+    if (maxStateIndex <= 0)
+        return;
+    currentStateIndex = currentStateIndex == maxStateIndex ? 0 : currentStateIndex + 1;
+
+    const ButtonState &state = states.at(currentStateIndex);
+
+    this->setIcon(state.getIcon());
+    this->setText(state.getText());
+
+    emit stateSwitched(currentStateIndex);
+}

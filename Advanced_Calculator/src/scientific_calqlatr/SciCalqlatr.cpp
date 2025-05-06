@@ -6,7 +6,7 @@ SciCalqlatr::SciCalqlatr(QObject *parent) : QObject(parent) {}
 
 const QList<Element> &SciCalqlatr::currentExp() { return _currentExp; }
 
-const QQueue<CalqlatrRecord> SciCalqlatr::recentRecords() { return _recentRecords; }
+const QQueue<CalqlatrRecord>& SciCalqlatr::recentRecords() { return _recentRecords; }
 
 void SciCalqlatr::switchAngleUnit() {
     this->angle_unit = (angle_unit == AngleUnit::DEG ? AngleUnit::RAD : AngleUnit::DEG);

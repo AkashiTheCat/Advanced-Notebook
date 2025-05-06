@@ -59,11 +59,11 @@ private:
     SciCalqlatrButton *piButton;
     QList<SciCalqlatrButton *> digitButtons;
 
-    MultiStateToolButton *trigoSwitchButton;
     MultiStateToolButton *degRadSwitchButton;
-    MultiStateToolButton *backspaceButton;
-    MultiStateToolButton *clearButton;
-    MultiStateToolButton *calculateButton;
+    QToolButton *trigoSwitchButton;
+    QToolButton *backspaceButton;
+    QToolButton *clearButton;
+    QToolButton *calculateButton;
 
     QList<QLineEdit *> recordLineEdits;
 

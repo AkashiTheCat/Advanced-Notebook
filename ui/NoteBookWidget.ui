@@ -405,6 +405,13 @@
          <pointsize>12</pointsize>
         </font>
        </property>
+       <property name="styleSheet">
+        <string notr="true">AdvTextEdit{
+border: 1px solid rgb(91, 91, 91);
+border-radius: 5px;
+background-color: #FFFFFF;
+}</string>
+       </property>
       </widget>
      </item>
     </layout>

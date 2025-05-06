@@ -139,6 +139,13 @@
              <pointsize>16</pointsize>
             </font>
            </property>
+           <property name="styleSheet">
+            <string notr="true">ReadOnlyLineEdit{
+border: 1px solid rgb(91, 91, 91);
+border-radius: 4px;
+background-color: #FFFFFF;
+}</string>
+           </property>
            <property name="text">
             <string>0</string>
            </property>

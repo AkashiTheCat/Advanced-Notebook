@@ -26,6 +26,7 @@ void ColorPicker::initColorMenu() {
         connect(stdColorBtn, &QToolButton::clicked, this,
             [this, color]() {
                 setColor(color);
+                colorEditBox->setEditText(color.name());
             });
         grid->addWidget(stdColorBtn, row, col++);
         if (col > 5) {
@@ -47,6 +48,7 @@ void ColorPicker::initColorMenu() {
         QColor color = QColorDialog::getColor(currentColor, this, tr("Select Color"));
         if (color.isValid()) {
             setColor(color);
+            colorEditBox->setEditText(color.name());
         }
         colorMenu->close();
     });
@@ -84,8 +86,6 @@ ColorPicker::ColorPicker(QWidget *parent) : QWidget(parent) {
         QColor color(text);
         if (color.isValid())
             this->setColor(color);
-        else
-            this->colorEditBox->setEditText(this->currentColor.name());
     });
 
     layout->addWidget(colorButton);
@@ -104,7 +104,6 @@ void ColorPicker::setColor(const QColor &color) {
     QIcon icon = colorButton->icon();
     IconHelper::setIconColor(icon, color);
     colorButton->setIcon(icon);
-    colorEditBox->setEditText(color.name());
     emit colorChanged(color);
 }
 

@@ -2,15 +2,22 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QMouseEvent>
+#include <QLineEdit>
 
 #include "ColorEditBox.h"
 
 ColorEditBox::ColorEditBox(QWidget *parent) : QComboBox(parent) {
     this->setPlaceholderText("RGB(HEX)");
     this->setEditable(true);
+    this->setInsertPolicy(QComboBox::NoInsert);
     this->setEditText("#000000");
-    this->setValidator(new QRegularExpressionValidator(
-        QRegularExpression("#([A-Fa-f0-9]{6})"), this));
+    this->lineEdit()->setMaxLength(7);
+
+    connect(this->lineEdit(), &QLineEdit::editingFinished, this, [this]() {
+        QLineEdit *le = this->lineEdit();
+        if (!this->regex.match(le->text()).hasMatch())
+            le->setText("#000000");
+    });
 }
 
 void ColorEditBox::setMenu(QMenu *menu) {
